@@ -1,0 +1,16 @@
+name: Deploy Hugo # 워크플로우의 이름
+on:
+push: # push 이벤트가 발생할 때
+branches:
+- main # main 브랜치에 push 이벤트가 발생할 때 Github Action 실행
+workflow_dispatch:
+jobs:
+deploy:
+runs-on: ubuntu-20.04 # Ubuntu 20.04 실행환경에서 실행
+concurrency: # 동시성 설정
+group: ${{ github.workflow }}-${{ github.ref }} # 그룹 설정
+steps: # 작업 단계
+- uses: actions/checkout@v2 # actions/checkout 사용
+with:
+submodules: true # 현재 repositor에 연결된 submodule 내용을 가져오기 위해 설정
+fetch-depth: 0 # submodule의 모든 히스토리를 가져옴
